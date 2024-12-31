@@ -1,10 +1,10 @@
 
 .app-bar-dark {
-    background: linear-gradient(45deg, #333, #444); /* Dark mode gradient background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease; /* Smooth transition for background and shadow */
-  }
-  
+  background: linear-gradient(45deg, #333, #444); /* Dark mode gradient background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the app bar */
+  transition: all 0.3s ease; /* Smooth transition for background and shadow */
+}
+
   .app-bar-light {
     background: linear-gradient(45deg, rgb(74 218 240), rgb(7 126 143));
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

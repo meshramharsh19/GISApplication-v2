@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 const FileUploader = ({ onFileUpload }) => {
     const handleFileChange = async (event) => {
@@ -6,11 +7,19 @@ const FileUploader = ({ onFileUpload }) => {
         if (!file) return;
 
         try {
-            if (file.name.endsWith('.kml')) { // Ensure only KML files are processed
+            if (file.name.endsWith('.kml')) {
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    console.log("KML File Data:", e.target.result);
-                    onFileUpload(e.target.result); // Send the KML data to parent component
+                reader.onload = async (e) => {
+                    const fileData = e.target.result;
+                    console.log("KML File Data:", fileData);
+
+                    // Send file to backend
+                    await axios.post('http://localhost:5000/api/files/upload', {
+                        name: file.name,
+                        data: fileData,
+                    });
+                    alert('File uploaded successfully.');
+                    onFileUpload(fileData);
                 };
                 reader.readAsText(file);
             } else {
@@ -22,11 +31,18 @@ const FileUploader = ({ onFileUpload }) => {
         }
     };
 
+    const triggerFileInput = () => {
+        document.getElementById('file-upload').click();
+    };
+
     return (
         <div>
-            <label htmlFor="file-upload" style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
+            <button 
+                type="button" 
+                onClick={triggerFileInput} 
+                style={{ cursor: 'pointer', padding: '10px 20px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '5px' }}>
                 Upload KML File
-            </label>
+            </button>
             <input
                 id="file-upload"
                 type="file"
