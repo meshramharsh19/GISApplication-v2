@@ -1,0 +1,214 @@
+/* General styling for login page */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url(https://images.unsplash.com/photo-1711645372528-cddb2c6eb565?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); /* Soft gradient background */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  animation: backgroundAnimation 15s infinite alternate;
+}
+
+/* Background animation for smooth transition */
+@keyframes backgroundAnimation {
+  0% {
+    background-position: center top;
+  }
+  50% {
+    background-position: center;
+  }
+  100% {
+    background-position: center bottom;
+  }
+}
+
+/* Adding a background image with a blur effect */
+.login-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://source.unsplash.com/1600x900/?nature,water'); /* Example background image */
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  z-index: -1;
+  animation: blurAnimation 8s infinite alternate;
+}
+
+/* Animation for background blur effect */
+@keyframes blurAnimation {
+  0% {
+    filter: blur(8px);
+  }
+  50% {
+    filter: blur(4px);
+  }
+  100% {
+    filter: blur(8px);
+  }
+}
+
+/* Form styling */
+.login-form {
+  background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+}
+
+/* Form title */
+.login-form h2 {
+  margin-bottom: 20px;
+  font-size: 30px;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  animation: slideInLeft 1s ease-out;
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+  position: relative;
+  animation: fadeInUp 1s ease-out 0.5s;
+}
+
+/* Label styling */
+.form-group label {
+  font-size: 16px;
+  color: #555;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+/* Input field styling */
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Focus effect on input fields */
+.form-group input:focus {
+  border-color: #17a2b8;
+  box-shadow: 0 0 5px rgba(23, 162, 184, 0.5);
+  transform: scale(1.05);
+  background-color: #f0f8ff; /* Light background color on focus */
+}
+
+/* Button container styling */
+.form-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Button styling */
+.login-btn {
+  background-color: #17a2b8;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  transform: scale(1);
+  width: 100%;
+}
+
+/* Hover effect for buttons */
+.login-btn:hover {
+  background-color: #138496;
+  transform: scale(1.05);
+}
+
+/* Links container */
+.links {
+  font-size: 14px;
+  animation: fadeInUp 1s ease-out 1s;
+}
+
+/* Styling for links */
+.links a {
+  color: #17a2b8;
+  text-decoration: none;
+  margin: 5px 0;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect for links */
+.links a:hover {
+  color: #138496;
+  text-decoration: underline;
+}
+
+/* Keyframe for fade-in effect */
+@keyframes fadeInUp {
+  0% {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Keyframe for slide-in effect */
+@keyframes slideInLeft {
+  0% {
+      opacity: 0;
+      transform: translateX(-30px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .login-container {
+      padding: 20px;
+  }
+  .login-form {
+      padding: 30px;
+      max-width: 100%;
+  }
+  .login-btn {
+      padding: 10px 18px;
+  }
+}
+
+/* Small screen styling for extra mobile responsiveness */
+@media (max-width: 480px) {
+  .login-form {
+      padding: 25px;
+  }
+  .login-btn {
+      width: 100%;
+      padding: 10px 15px;
+  }
+  .login-form h2 {
+      font-size: 24px;
+  }
+}

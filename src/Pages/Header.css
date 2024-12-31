@@ -1,0 +1,46 @@
+/* AppBar Styles */
+.app-bar-dark {
+    background-color: #333;
+    box-shadow: none;
+  }
+  
+  .app-bar-light {
+    background-color: #1976d2;
+    box-shadow: none;
+  }
+  
+  /* Title Styling */
+  .title {
+    margin-left: 30px;  /* Added left margin */
+    color: #fff;
+  }
+  
+  /* Container for Dark Mode Toggle */
+  .toggle-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Space Between Title and Icons */
+  .space-between {
+    flex-grow: 1; /* This will push the icons to the right */
+  }
+  
+  /* Icon Button Styling */
+  .icon-button {
+    transition: transform 0.3s ease;
+  }
+  
+  .icon-button:hover {
+    transform: rotate(360deg); /* Rotate on hover */
+  }
+  
+  /* Switch Styling */
+  .MuiSwitch-thumb {
+    transition: background-color 0.3s ease;
+  }
+  
+  .MuiSwitch-track {
+    transition: background-color 0.3s ease;
+  }
+  

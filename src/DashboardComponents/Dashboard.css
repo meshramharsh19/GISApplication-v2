@@ -1,0 +1,118 @@
+/* Sidebar toggle button container */
+.sidebar-toggle-container {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1300;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle-button {
+  background-color: #307b86;
+  color: #c2baba;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+/* Sidebar drawer */
+.sidebar-drawer {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Sidebar content */
+.sidebar-content {
+  width: 250px;
+  height: 100%;
+  background: linear-gradient(45deg, rgb(52 129 141), rgb(11 147 166)); 
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 15px;
+  box-sizing: border-box;
+}
+
+/* Sidebar title */
+.sidebar-title {
+    margin-left: 35px;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Sidebar options list */
+.sidebar-options-list {
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Sidebar option item */
+.sidebar-option-item {
+  color: #b0bec5;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-option-item:hover {
+  background-color: #37474f;
+}
+
+.sidebar-option-item.selected {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+/* Sidebar option icon */
+.sidebar-option-icon {
+  color: inherit;
+  min-width: 40px;
+}
+
+/* Sidebar divider */
+.sidebar-divider {
+  background-color: #b0bec5;
+}
+
+/* Floating icons container */
+.floating-icons-container {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1300;
+  width: 50px;
+  background-color: #263238;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Floating icon button */
+.floating-icon-button {
+  background-color: transparent;
+  color: #fff;
+  margin-bottom: 10px;
+  box-shadow: none;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Main content area */
+.main-content {
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Welcome text */
+.welcome-text {
+  color: #888;
+}
