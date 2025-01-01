@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import './KMZ.css';
 import JSZip from 'jszip';
 
 // Component to handle KML rendering for each layer
@@ -55,7 +56,6 @@ const Map = () => {
         const kmzData = event.target.result;
         try {
           const zip = await JSZip.loadAsync(kmzData);
-// const files = zip.files;
 
           const targetFilePath = "0/0/0.kml";
           const kmlFile = zip.file(targetFilePath);
@@ -104,33 +104,19 @@ const Map = () => {
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       {/* Sidebar for Layer Controls and File Upload */}
-      <div
-        style={{
-          width: sidebarVisible ? '280px' : '0', // Sidebar width toggles based on visibility
-          padding: '10px 20px',
-          background: '#f4f4f4',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-          overflow: 'hidden',
-          transition: 'width 0.3s', // Smooth transition for sliding effect
-        }}
-      >
+      <div className={sidebarVisible ? 'sidebar' : 'sidebar hidden'}>
         {/* Top Section: File Upload Fields */}
-        <div style={{ marginBottom: '10px' }}>
-          <h2 style={{ marginBottom: '10px' }}>File Uploads</h2>
+        <div className="file-upload">
+          <h2>File Uploads</h2>
           {Object.keys(layers).map((layerName) => (
-            <div key={layerName} style={{ marginBottom: '10px' }}>
-              <label style={{ display: 'block', marginBottom: '5px' }}>
+            <div key={layerName}>
+              <label>
                 Upload for: <strong>{layerName}</strong>
               </label>
               <input
                 type="file"
                 onChange={(e) => handleFileUpload(e, layerName)}
                 accept=".kmz"
-                style={{ marginBottom: '5px' }}
               />
             </div>
           ))}
@@ -138,15 +124,14 @@ const Map = () => {
 
         {/* Bottom Section: Layer Toggle Controls */}
         <div>
-          <h2 style={{ marginBottom: '10px' }}>Toggle Layers</h2>
+          <h2>Toggle Layers</h2>
           {Object.keys(layers).map((layerName) => (
-            <div key={layerName} style={{ marginBottom: '5px' }}>
-              <label style={{ display: 'flex', alignItems: 'center' }}>
+            <div key={layerName} className="layer-toggle">
+              <label>
                 <input
                   type="checkbox"
                   checked={layers[layerName].isActive}
                   onChange={() => toggleLayer(layerName)}
-                  style={{ marginRight: '10px' }}
                 />
                 {layerName}
               </label>
@@ -156,7 +141,7 @@ const Map = () => {
       </div>
 
       {/* Map Container */}
-      <MapContainer center={[20.5937, 77.9629]} zoom={5} style={{ height: '100vh', flex: 1 }}>
+      <MapContainer center={[20.5937, 77.9629]} zoom={5} style={{ flex: 1 }}>
         {/* Satellite TileLayer */}
         <TileLayer
           url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
@@ -168,23 +153,10 @@ const Map = () => {
       </MapContainer>
 
       {/* Hamburger Icon to Toggle Sidebar */}
-      <div
-        onClick={toggleSidebar}
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          right: '20px',
-          backgroundColor: '#fff',
-          border: '1px solid #ccc',
-          borderRadius: '50%',
-          padding: '10px',
-          cursor: 'pointer',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <div style={{ width: '20px', height: '3px', backgroundColor: '#333', margin: '4px 0' }}></div>
-        <div style={{ width: '20px', height: '3px', backgroundColor: '#333', margin: '4px 0' }}></div>
-        <div style={{ width: '20px', height: '3px', backgroundColor: '#333', margin: '4px 0' }}></div>
+      <div className="hamburger-icon" onClick={toggleSidebar}>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
     </div>
   );
