@@ -37,12 +37,23 @@ const FileUploader = ({ onFileUpload }) => {
 
     return (
         <div>
-            <button 
-                type="button" 
-                onClick={triggerFileInput} 
-                style={{ cursor: 'pointer', padding: '10px 20px', backgroundColor: '#007BFF', color: '#fff', border: 'none', borderRadius: '5px' }}>
-                Upload KML File
-            </button>
+            <button
+    style={{
+      cursor: 'pointer',
+      padding: '10px 20px',
+      backgroundColor: 'rgb(21, 93, 103)',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '5px',
+      transition: 'background-color 0.3s ease, transform 0.2s ease'
+    }}
+    onMouseEnter={(e) => e.target.style.backgroundColor = 'rgb(18, 78, 89)'}
+    onMouseLeave={(e) => e.target.style.backgroundColor = 'rgb(21, 93, 103)'}
+    onMouseDown={(e) => e.target.style.transform = 'scale(0.98)'}
+    onMouseUp={(e) => e.target.style.transform = 'scale(1)'}
+  >
+    Upload KML File
+  </button>
             <input
                 id="file-upload"
                 type="file"

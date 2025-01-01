@@ -1,0 +1,38 @@
+/* Header.css */
+
+/* AppBar styles */
+.appBar {
+    background: rgb(11, 70, 78) !important;
+    box-shadow: 0 4px 8px rgb(18, 64, 71);
+    transition: all 0.3s ease;
+  }
+  
+  .appBar.darkMode {
+    background: linear-gradient(45deg, #333, #444);
+  }
+  
+  /* Typography styles */
+  .toolbarTitle {
+    margin-left: 40px !important;
+    color: #fff;
+    font-weight: 750 !important;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    margin-top: -5px !important;
+  }
+  
+  /* IconButton styles */
+  .iconButton {
+    margin-right: 10px;
+  }
+  
+  /* Avatar styles */
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-top: 11px;
+  }
+  

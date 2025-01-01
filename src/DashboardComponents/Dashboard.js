@@ -47,9 +47,14 @@ const Dashboard = () => {
         return <KMZ />;
       default:
         return (
-          <Typography variant="h6" className="welcome-text">
-            Welcome to My Dashboard! Select an option from the sidebar to view details.
-          </Typography>
+          <div className="welcome-container" style={{ height: '100vh', backgroundColor: '#fff', padding: '40px', borderRadius: '8px' }}>
+            <Typography variant="h4" className="welcome-title" style={{ fontWeight: 'bold', color: '#2c3e50' }}>
+              Welcome to My Dashboard!
+            </Typography>
+            <Typography variant="body1" className="welcome-subtext" style={{ fontStyle: 'italic', color: '#7f8c8d', marginTop: '10px' }}>
+              Select an option from the sidebar to view details.
+            </Typography>
+          </div>
         );
     }
   };
