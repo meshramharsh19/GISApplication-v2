@@ -23,7 +23,8 @@ import Location from "./sidebarOptions/Location";
 import ShapeFileExtractor from "./sidebarOptions/ShapeFileExtractor";
 import KML from "./sidebarOptions/KML";
 import KMZ from "./sidebarOptions/KMZ";
-import "./Dashboard.css"; // Import the external CSS file
+import Welcome from "./Welcome"; // Import the Welcome component
+import "./Dashboard.css"; 
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -46,16 +47,7 @@ const Dashboard = () => {
       case "KMZ":
         return <KMZ />;
       default:
-        return (
-          <div className="welcome-container" style={{ height: '100vh', backgroundColor: '#fff', padding: '40px', borderRadius: '8px' }}>
-            <Typography variant="h4" className="welcome-title" style={{ fontWeight: 'bold', color: '#2c3e50' }}>
-              Welcome to My Dashboard!
-            </Typography>
-            <Typography variant="body1" className="welcome-subtext" style={{ fontStyle: 'italic', color: '#7f8c8d', marginTop: '10px' }}>
-              Select an option from the sidebar to view details.
-            </Typography>
-          </div>
-        );
+        return <Welcome />; // Render the Welcome component
     }
   };
 
@@ -142,7 +134,7 @@ const Dashboard = () => {
         className="main-content"
         style={{ marginLeft: isSmallScreen || !isSidebarOpen ? 0 : 250 }}
       >
-        {renderContent()}
+        {renderContent()} 
       </Box>
     </Box>
   );

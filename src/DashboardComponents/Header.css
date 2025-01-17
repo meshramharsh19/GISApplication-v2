@@ -1,38 +1,61 @@
 /* Header.css */
 
-/* AppBar styles */
+:root {
+  --primary-color: #014b4d; /* A vibrant purple */
+  --secondary-color: #fff;
+  --shadow-color: rgba(99, 55, 180, 0.3); /* A subtle purple shadow */
+}
+
 .appBar {
-    background: rgb(11, 70, 78) !important;
-    box-shadow: 0 4px 8px rgb(18, 64, 71);
-    transition: all 0.3s ease;
-  }
-  
-  .appBar.darkMode {
-    background: linear-gradient(45deg, #333, #444);
-  }
-  
-  /* Typography styles */
-  .toolbarTitle {
-    margin-left: 40px !important;
-    color: #fff;
-    font-weight: 750 !important;
-    font-family: 'Roboto', sans-serif;
-    letter-spacing: 1px;
-    margin-top: -5px !important;
-  }
-  
-  /* IconButton styles */
-  .iconButton {
-    margin-right: 10px;
-  }
-  
-  /* Avatar styles */
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border: 2px solid #fff;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    margin-top: 11px;
-  }
-  
+  background-color: var(--primary-color) !important;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.appBar.darkMode {
+  background: linear-gradient(45deg, #212121, #424242); /* Darker gradient */
+}
+
+.toolbarTitle {
+  margin-left: 12px; /* Reduced margin */
+  color: var(--secondary-color);
+  font-weight: 600; /* Slightly less bold */
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.8px; /* Reduced spacing */
+  position: relative; /* For the pseudo-element */
+}
+
+.toolbarTitle::before { /* Added a subtle underline effect */
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.toolbarTitle:hover::before {
+  transform: scaleX(1);
+}
+
+.iconButton {
+  margin-right: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--secondary-color);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+  margin-top: 11px;
+}
+
+.avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); /* Glow effect on hover */
+}
