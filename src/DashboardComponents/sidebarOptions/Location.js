@@ -39,7 +39,7 @@ const MapPage = () => {
   };
 
   return (
-    <div className="map-container">
+    <div style={{ marginTop:'11vh', padding: '20px' }} className="map-container">
       <div className="input-container">
         <input
           type="text"

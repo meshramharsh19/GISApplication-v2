@@ -14,7 +14,7 @@ const KML = () => {
 
   return (
     <ErrorBoundary>
-      <div style={{ padding: '20px' }}>
+      <div style={{ marginTop:'13vh', padding: '20px' }}>
         <h1>KML File Uploader and Map Viewer</h1>
         <FileUploader onFileUpload={handleFileUpload} />
         <div style={{ marginTop: '20px', height: '500px' }}>

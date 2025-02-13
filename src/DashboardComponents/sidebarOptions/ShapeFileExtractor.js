@@ -427,7 +427,7 @@ const MyMap = () => {
     <>
       {map ? <DisplayPosition map={map} position={position} setPosition={setPosition}    /> : null}
 
-      <div className="upload-shapefile">
+      <div style={{ marginTop:'13vh', padding: '20px' }} className="upload-shapefile">
         Upload ShapeFile(.zip): <input type="file" accept=".zip" onChange={handleFile} className="inputfile" />
 
         <button className="map-layers-button" onClick={() => setShowMapLayers(!showMapLayers)}>
