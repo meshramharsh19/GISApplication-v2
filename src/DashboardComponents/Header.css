@@ -1,38 +1,42 @@
 /* Header.css */
 
 :root {
-  --primary-color: #014b4d; /* A vibrant purple */
-  --secondary-color: #fff;
-  --shadow-color: rgba(99, 55, 180, 0.3); /* A subtle purple shadow */
+  --primary-color: #014b4d; /* Vibrant deep teal */
+  --secondary-color: #ffffff;
+  --shadow-color: rgba(1, 75, 77, 0.3); /* Subtle shadow */
+  --dropdown-bg: #ffffff;
+  --dropdown-hover: #f5f5f5;
+  --border-radius: 8px;
 }
 
 .appBar {
   background-color: var(--primary-color) !important;
-  box-shadow: 0 4px 8px var(--shadow-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
   transition: all 0.3s ease;
 }
 
 .appBar.darkMode {
-  background: linear-gradient(45deg, #212121, #424242); /* Darker gradient */
+  background: linear-gradient(45deg, #212121, #424242);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .toolbarTitle {
-  margin-left: 12px; /* Reduced margin */
+  margin-left: 12px;
   color: var(--secondary-color);
-  font-weight: 600; /* Slightly less bold */
-  font-family: 'Roboto', sans-serif;
-  letter-spacing: 0.8px; /* Reduced spacing */
-  position: relative; /* For the pseudo-element */
+  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 1px;
+  position: relative;
 }
 
-.toolbarTitle::before { /* Added a subtle underline effect */
+.toolbarTitle::before {
   content: "";
   position: absolute;
-  bottom: -2px;
+  bottom: -3px;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.6);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -44,18 +48,164 @@
 
 .iconButton {
   margin-right: 10px;
+  transition: transform 0.2s ease;
+}
+
+.iconButton:hover {
+  transform: scale(1.1);
+}
+
+.avatarButton {
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.3s ease;
+}
+
+.avatarButton:hover {
+  transform: scale(1.1);
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--secondary-color);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+/* Dropdown Menu */
+.MuiMenu-paper {
+  background-color: var(--dropdown-bg) !important;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2) !important;
+  padding: 8px 0;
+  min-width: 160px;
+}
+
+.MuiMenuItem-root {
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  transition: background 0.2s ease;
+  border-radius: var(--border-radius);
+}
+
+.MuiMenuItem-root:hover {
+  background-color: var(--dropdown-hover) !important;
+}
+
+/* Logout Button Styling */
+.MuiMenuItem-root:last-child {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.MuiMenuItem-root:last-child:hover {
+  background-color: rgba(211, 47, 47, 0.1) !important;
+}
+/* Header.css */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+.appBar {
+  background: var(--appBarBackground);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--appBarBoxShadow);
+  transition: all 0.3s ease-in-out;
+}
+
+.toolbar {
+  padding: 0.5rem 1rem;
+}
+.appBar .Dashbord{
+  margin-left: 7vh;
+  margin-top: -17px;
+
+}
+@media (min-width: 600px) {
+  .toolbar {
+    padding: 0.5rem 2rem;
+  }
 }
 
 .avatar {
   width: 40px;
   height: 40px;
-  border: 2px solid var(--secondary-color);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
-  margin-top: 11px;
+  border: 2px solid var(--avatarBorderColor);
+  transition: transform 0.2s ease-in-out;
 }
 
 .avatar:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); /* Glow effect on hover */
+  transform: scale(1.05);
+}
+
+.arrowIcon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.arrowIcon.open {
+  transform: rotate(180deg);
+}
+
+.menu {
+  border-radius: 8px;
+  margin-top: 8px;
+  min-width: 220px;
+  background: var(--menuBackground);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.menuItem {
+  padding: 12px 16px;
+  margin: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.menuItem:hover {
+  background-color: var(--menuItemHoverBackground);
+  transform: translateX(5px);
+}
+
+.menuItemIcon {
+  color: var(--menuItemIconColor);
+  min-width: 36px;
+}
+
+.menuItemText {
+  font-weight: 500;
+}
+
+.iconButton {
+  transition: transform 0.2s ease-in-out;
+}
+
+.iconButton:hover {
+  transform: rotate(30deg);
 }
