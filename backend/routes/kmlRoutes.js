@@ -4,6 +4,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const FileModel = require('../models/KML');
+const auth = require('../middleware/authMiddleware')
 
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, '../uploads');
@@ -17,7 +18,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }  // 5MB file size limit
 });
 
-router.post('/upload', upload.single('kml'), async (req, res) => {
+router.post('/upload', auth,upload.single('kml'), async (req, res) => {
     try {
         const { file } = req;
         if (!file) return res.status(400).json({ message: 'No file uploaded' });

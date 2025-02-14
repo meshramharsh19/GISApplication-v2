@@ -1,8 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-// const auth = require('../middleware/authMiddleware')
+const auth = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -17,7 +16,7 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-router.post('/login',  async (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
@@ -26,10 +25,26 @@ router.post('/login',  async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign({ id: user._id }, 'secret', { expiresIn: '1h' });
-    res.status(200).json({ token });
+    req.session.user = user; // Store user in session
+    res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+router.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) return res.status(500).json({ message: 'Logout failed' });
+    res.status(200).json({ message: 'Logout successful' });
+  });
+});
+
+// Check Auth Route
+router.get('/check-auth', (req, res) => {
+  if (req.session.user) {
+    res.status(200).json({ message: 'Authenticated' });
+  } else {
+    res.status(401).json({ message: 'Not authenticated' });
   }
 });
 

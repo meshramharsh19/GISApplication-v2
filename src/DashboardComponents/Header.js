@@ -40,10 +40,26 @@ const Header = ({ toggleDarkMode, darkMode }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+const [isAuthenticated, setIsAuthenticated] = useState(true);
 
-  const handleLogout = () => {
-    handleClose();
-    navigate("/");
+ const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/users/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        // Update authentication state
+        setIsAuthenticated(false);
+        // Redirect to home page
+        navigate('/');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   };
 
   const menuItems = [
