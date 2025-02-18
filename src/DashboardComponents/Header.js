@@ -42,26 +42,32 @@ const Header = ({ toggleDarkMode, darkMode }) => {
   };
 const [isAuthenticated, setIsAuthenticated] = useState(true);
 
+
 const handleLogout = async () => {
   try {
-      const response = await fetch('/api/users/logout', {  // Ensure correct API path
-          method: "POST",
-          credentials: "include",
-      });
+    // Send logout request to the server
+    await fetch('/api/users/logout', {
+      method: "POST",
+      credentials: "include", // Ensure cookies are sent with the request
+    });
 
-      const data = await response.json().catch(() => null);
-      console.log('Logout Response:', response.status, data);
+    // Update the authentication state
+    setIsAuthenticated(false);
+    
 
-      if (response.ok) {
-          setIsAuthenticated(false);
-          navigate('/');
-      } else {
-          console.error('Logout failed:', data?.message || 'Unknown error');
-      }
+    // Refresh the page to clear any client-side state
+    window.location.reload();
   } catch (error) {
-      console.error('Error during logout:', error);
+    console.error('Error during logout:', error);
+
+    // Update the authentication state even if there's an error
+    setIsAuthenticated(false);
+
+    // Refresh the page to clear any client-side state
+    window.location.reload();
   }
 };
+
 
 
   const menuItems = [
