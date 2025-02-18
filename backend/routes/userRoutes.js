@@ -33,11 +33,22 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
+  if (!req.session) {
+    return res.status(400).json({ message: 'No active session found' });
+  }
+
   req.session.destroy((err) => {
-    if (err) return res.status(500).json({ message: 'Logout failed' });
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).json({ message: 'Logout failed' });
+    }
+
+    res.clearCookie('connect.sid', { path: '/' }); // Ensure session cookie is properly cleared
     res.status(200).json({ message: 'Logout successful' });
   });
 });
+
+
 
 // Check Auth Route
 router.get('/check-auth', (req, res) => {

@@ -30,7 +30,6 @@ app.use(session({
     mongoUrl: mongoSessionURI,
     collectionName: 'sessions',
   }),
-  cookie: { maxAge: 30000 },
 }));
 
 // Static file serving for uploaded files (if needed)
