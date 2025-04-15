@@ -1,27 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
   Box,
-  Avatar,
-  Menu,
-  MenuItem,
+  Typography,
   useTheme,
   useMediaQuery,
-  ListItemIcon,
-  ListItemText,
+  Button,
 } from "@mui/material";
 import {
-  Brightness4,
-  Brightness7,
   Settings,
   Help,
   Book,
   Logout,
   AccountCircle,
-  ArrowDropDown,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
@@ -30,156 +20,88 @@ const Header = ({ toggleDarkMode, darkMode }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
 
-  const handleAvatarClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    setIsLoaded(true);
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY) {
+        setShowHeader(false); // Scroll down -> hide header
+      } else {
+        setShowHeader(true); // Scroll up -> show header
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/users/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      setIsAuthenticated(false);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error during logout:", error);
+      setIsAuthenticated(false);
+      window.location.reload();
+    }
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleUserProfile = () => {
+    navigate("/user-profile");
   };
-const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-
-const handleLogout = async () => {
-  try {
-    // Send logout request to the server
-    await fetch('/api/users/logout', {
-      method: "POST",
-      credentials: "include", // Ensure cookies are sent with the request
-    });
-
-    // Update the authentication state
-    setIsAuthenticated(false);
-    
-
-    // Refresh the page to clear any client-side state
-    window.location.reload();
-  } catch (error) {
-    console.error('Error during logout:', error);
-
-    // Update the authentication state even if there's an error
-    setIsAuthenticated(false);
-
-    // Refresh the page to clear any client-side state
-    window.location.reload();
-  }
-};
-
-
 
   const menuItems = [
-    {
-      text: "Profile",
-      icon: <AccountCircle />,
-      onClick: handleClose,
-    },
-    {
-      text: "Settings",
-      icon: <Settings />,
-      onClick: handleClose,
-    },
-    {
-      text: "Guide",
-      icon: <Book />,
-      onClick: handleClose,
-    },
-    {
-      text: "Help Center",
-      icon: <Help />,
-      onClick: handleClose,
-    },
-    {
-      text: "Logout",
-      icon: <Logout />,
-      onClick: handleLogout,
-    },
+    { text: "Profile", icon: <AccountCircle />, onClick: handleUserProfile, sx: { color: "black" } },
+    { text: "Settings", icon: <Settings />, onClick: () => {}, sx: { color: "black" } },
+    { text: "Guide", icon: <Book />, onClick: () => {}, sx: { color: "black" } },
+    { text: "Help Center", icon: <Help />, onClick: () => {}, sx: { color: "black" } },
+    { text: "Logout", icon: <Logout />, onClick: handleLogout, sx: { color: "red" } },
   ];
 
-  const appBarStyle = {
-    "--appBarBackground": darkMode
-      ? `linear-gradient(145deg, ${theme.palette.background.default}, ${theme.palette.grey[900]})`
-      : `linear-gradient(145deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-    "--appBarBoxShadow": darkMode
-      ? "0 4px 20px 0 rgba(0, 0, 0, 0.25)"
-      : "0 4px 20px 0 rgba(0, 0, 0, 0.15)",
-    "--avatarBorderColor": theme.palette.background.paper,
-    "--menuBackground": theme.palette.background.paper,
-    "--menuItemHoverBackground": theme.palette.primary.main,
-    "--menuItemIconColor": theme.palette.primary.main,
-  };
-
   return (
-    <AppBar position="fixed" className="appBar" style={appBarStyle}>
-      <Toolbar className="toolbar">
+    <Box
+      className={`cardHeader ${darkMode ? "darkMode" : ""} ${
+        isLoaded ? "loaded" : ""
+      } ${showHeader ? "show" : "hide"}`}
+    >
+      <Box className="headerContent">
         <Typography
-          className="Dashbord"
-          variant={isMobile ? "h6" : "h5"}
-          noWrap
+          variant="h5"
           component="div"
-          sx={{
-            flexGrow: 1,
-            fontWeight: 600,
-            letterSpacing: "0.5px",
-            opacity: 0.95,
-          }}
+          className="headerTitle"
+          sx={{ fontWeight: 600 }}
         >
-          My Dashboard
+          Dashboard
         </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <IconButton
-            onClick={handleAvatarClick}
-            sx={{
-              padding: 0.5,
-              "&:hover": { backgroundColor: "transparent" },
-            }}
-          >
-            <Avatar
-              alt="User Image"
-              src="https://icons-for-free.com/iff/png/512/instagram+profile+user+icon-1320184028326496024.png"
-              className="avatar"
-            />
-            <ArrowDropDown
-              className={`arrowIcon ${open ? "open" : ""}`}
-              sx={{ color: "white" }}
-            />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            transformOrigin={{ horizontal: "right", vertical: "top" }}
-            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            className="menu"
-          >
-            {menuItems.map((item, index) => (
-              <MenuItem
-                key={index}
-                onClick={item.onClick}
-                className="menuItem"
-                sx={{
-                  animation: `fadeIn ${0.1 + index * 0.05}s ease-out`,
-                }}
-              >
-                <ListItemIcon className="menuItemIcon">
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.text}
-                  sx={{
-                    "& .MuiTypography-root": {
-                      fontWeight: 500,
-                    },
-                  }}
-                />
-              </MenuItem>
-            ))}
-          </Menu>
+
+        <Box className="menuButtons">
+          {menuItems.map((item, index) => (
+            <Button
+              key={index}
+              startIcon={item.icon}
+              onClick={item.onClick}
+              className={`headerButton ${item.text === "Logout" ? "logout" : ""}`}
+              sx={item.sx}
+              aria-label={item.text} // Added for accessibility
+            >
+              {item.text}
+            </Button>
+          ))}
         </Box>
-      </Toolbar>
-    </AppBar>
+      </Box>
+    </Box>
   );
 };
 

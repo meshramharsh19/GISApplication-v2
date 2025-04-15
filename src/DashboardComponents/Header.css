@@ -1,211 +1,106 @@
-/* Header.css */
-
 :root {
-  --primary-color: #014b4d; /* Vibrant deep teal */
-  --secondary-color: #ffffff;
-  --shadow-color: rgba(1, 75, 77, 0.3); /* Subtle shadow */
-  --dropdown-bg: #ffffff;
-  --dropdown-hover: #f5f5f5;
-  --border-radius: 8px;
+  --primary-color: #ffffff;
+  --accent-color: #ff6b6b;
+  --text-color: #000000;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --dark-bg: #2d3436;
+  --dark-text: #dfe6e9;
 }
 
-.appBar {
-  background-color: var(--primary-color) !important;
-  box-shadow: 0 4px 12px var(--shadow-color);
-  transition: all 0.3s ease;
+.cardHeader {
+  position: fixed;
+  top: 20px;
+  left: 15%;
+  transform: translateX(-20%) translateY(-120%);
+  transition: transform 0.5s ease-out;
+  width: calc(100% - 40px);
+  max-width: 1200px;
+  background: var(--primary-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  border-left: 4px solid var(--accent-color);
+  z-index: 1000;
+  transform: translateX(-120%);
+  transition: transform 0.5s ease-out, opacity 0.3s ease;
 }
 
-.appBar.darkMode {
-  background: linear-gradient(45deg, #212121, #424242);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+.cardHeader.loaded {
+  transform: translateX(-50%) translateY(0);
 }
 
-.toolbarTitle {
-  margin-left: 12px;
-  color: var(--secondary-color);
-  font-weight: 700;
-  font-family: "Roboto", sans-serif;
-  letter-spacing: 1px;
-  position: relative;
+.cardHeader.darkMode {
+  background: var(--dark-bg);
+  color: var(--dark-text);
 }
 
-.toolbarTitle::before {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: rgba(255, 255, 255, 0.6);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
+.cardHeader.show {
+  transform: translateY(0);
+  opacity: 1;
 }
 
-.toolbarTitle:hover::before {
-  transform: scaleX(1);
+.cardHeader.hide {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
 }
 
-.iconButton {
-  margin-right: 10px;
-  transition: transform 0.2s ease;
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
 }
 
-.iconButton:hover {
-  transform: scale(1.1);
+.headerTitle { 
+  color: var(--text-color);
+  font-family: "Poppins", sans-serif;
+
+  letter-spacing: 0.5px;
 }
 
-.avatarButton {
-  cursor: pointer;
-  padding: 5px;
-  transition: transform 0.3s ease;
+.cardHeader.darkMode .headerTitle {
+  color: var(--dark-text);
 }
 
-.avatarButton:hover {
-  transform: scale(1.1);
+.menuButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.avatar {
-  width: 42px;
-  height: 42px;
-  border: 2px solid var(--secondary-color);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.avatar:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
-}
-
-/* Dropdown Menu */
-.MuiMenu-paper {
-  background-color: var(--dropdown-bg) !important;
-  border-radius: var(--border-radius);
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2) !important;
-  padding: 8px 0;
-  min-width: 160px;
-}
-
-.MuiMenuItem-root {
-  font-size: 16px;
+.headerButton {
+  color: var(--text-color);
   font-weight: 500;
-  font-family: "Roboto", sans-serif;
-  color: #333;
-  transition: background 0.2s ease;
-  border-radius: var(--border-radius);
+  text-transform: none;
 }
 
-.MuiMenuItem-root:hover {
-  background-color: var(--dropdown-hover) !important;
+.cardHeader.darkMode .headerButton {
+  color: black;
 }
 
-/* Logout Button Styling */
-.MuiMenuItem-root:last-child {
-  color: #d32f2f;
-  font-weight: bold;
+.headerButton.logout {
+  color: #e84393;
 }
 
-.MuiMenuItem-root:last-child:hover {
-  background-color: rgba(211, 47, 47, 0.1) !important;
-}
-/* Header.css */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .cardHeader {
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 15px;
   }
-}
 
-@keyframes rotateAnimation {
-  from {
-    transform: rotate(0deg);
+  .menuButtons {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
   }
-  to {
-    transform: rotate(180deg);
-  }
-}
-
-.appBar {
-  background: var(--appBarBackground);
-  backdrop-filter: blur(10px);
-  box-shadow: var(--appBarBoxShadow);
-  transition: all 0.3s ease-in-out;
-}
-
-.toolbar {
-  padding: 0.5rem 1rem;
-}
-.appBar .Dashbord{
-  margin-left: 7vh;
-  margin-top: -17px;
-
-}
-@media (min-width: 600px) {
-  .toolbar {
-    padding: 0.5rem 2rem;
-  }
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  border: 2px solid var(--avatarBorderColor);
-  transition: transform 0.2s ease-in-out;
-}
-
-.avatar:hover {
-  transform: scale(1.05);
-}
-
-.arrowIcon {
-  transition: transform 0.3s ease-in-out;
-}
-
-.arrowIcon.open {
-  transform: rotate(180deg);
-}
-
-.menu {
-  border-radius: 8px;
-  margin-top: 8px;
-  min-width: 220px;
-  background: var(--menuBackground);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.15);
-  animation: fadeIn 0.2s ease-out;
-}
-
-.menuItem {
-  padding: 12px 16px;
-  margin: 4px;
-  border-radius: 4px;
-  transition: all 0.2s ease-in-out;
-}
-
-.menuItem:hover {
-  background-color: var(--menuItemHoverBackground);
-  transform: translateX(5px);
-}
-
-.menuItemIcon {
-  color: var(--menuItemIconColor);
-  min-width: 36px;
-}
-
-.menuItemText {
-  font-weight: 500;
-}
-
-.iconButton {
-  transition: transform 0.2s ease-in-out;
-}
-
-.iconButton:hover {
-  transform: rotate(30deg);
 }

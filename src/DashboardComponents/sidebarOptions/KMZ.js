@@ -5,56 +5,219 @@ import 'leaflet/dist/leaflet.css';
 import JSZip from 'jszip';
 import proj4 from 'proj4';
 
-import { Margin } from '@mui/icons-material';
+// SVG Icons as React components
+const MenuIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
+
+const UploadIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <polyline points="17 8 12 3 7 8"></polyline>
+    <line x1="12" y1="3" x2="12" y2="15"></line>
+  </svg>
+);
+
+const MapIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+    <line x1="8" y1="2" x2="8" y2="18"></line>
+    <line x1="16" y1="6" x2="16" y2="22"></line>
+  </svg>
+);
+
+const LayersIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+    <polyline points="2 17 12 22 22 17"></polyline>
+    <polyline points="2 12 12 17 22 12"></polyline>
+  </svg>
+);
 
 // Styles
 const styles = {
   container: {
     display: 'flex',
     height: '100vh',
-    marginTop: '11vh',
+    top: '90px',
+    position: 'relative',
+    fontFamily: 'Inter, system-ui, sans-serif',
   },
   sidebar: {
-    width: '300px',
-    padding: '20px',
-    backgroundColor: '#f5f5f5',
+    width: '320px',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
     overflowY: 'auto',
-    transition: 'transform 0.3s ease',
+    height: '100%',
+    zIndex: 1000,
   },
-  sidebarHidden: {
-    transform: 'translateX(-100%)',
+  mapContainer: {
+    flex: 1,
+    height: '100%',
   },
   map: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
   },
-  hamburger: {
-    position: 'absolute',
-    top: '10px',
-    left: '10px',
-    zIndex: 1000,
-    padding: '10px',
-    backgroundColor: 'white',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    cursor: 'pointer',
+  sectionHeader: {
+    padding: '20px',
+    borderBottom: '1px solid #eaeaea',
+    margin: 0,
+    fontSize: '18px',
+    fontWeight: '600',
+    color: '#333',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
   },
-  fileUpload: {
-    marginBottom: '20px',
+  sectionContent: {
+    padding: '20px',
   },
-  layerToggle: {
+  layerItem: {
+    marginBottom: '16px',
+    backgroundColor: '#f8f9fa',
+    borderRadius: '8px',
+    padding: '15px',
+    transition: 'all 0.2s ease',
+  },
+  layerItemActive: {
+    backgroundColor: '#e9f7fe',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+  },
+  layerHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: '10px',
   },
-  fileInput: {
-    marginTop: '5px',
+  layerTitle: {
+    margin: 0,
+    fontSize: '16px',
+    fontWeight: '500',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  },
+  toggleSwitch: {
+    position: 'relative',
+    display: 'inline-block',
+    width: '48px',
+    height: '24px',
+  },
+  toggleInput: {
+    opacity: 0,
+    width: 0,
+    height: 0,
+  },
+  toggleSlider: {
+    position: 'absolute',
+    cursor: 'pointer',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#ccc',
+    transition: '0.4s',
+    borderRadius: '24px',
+  },
+  toggleSliderActive: {
+    backgroundColor: '#2196F3',
+  },
+  toggleSliderBefore: {
+    position: 'absolute',
+    content: '""',
+    height: '18px',
+    width: '18px',
+    left: '3px',
+    bottom: '3px',
+    backgroundColor: 'white',
+    transition: '0.4s',
+    borderRadius: '50%',
+  },
+  toggleSliderBeforeActive: {
+    transform: 'translateX(24px)',
+  },
+  uploadButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
     width: '100%',
+    padding: '10px',
+    backgroundColor: '#f0f0f0',
+    border: '1px dashed #ccc',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    fontSize: '14px',
+    color: '#666',
   },
-  checkbox: {
-    marginRight: '8px',
+  uploadButtonHover: {
+    backgroundColor: '#e8e8e8',
+    borderColor: '#aaa',
   },
-  layerLabel: {
-    display: 'block',
-    marginBottom: '5px',
+  fileInput: {
+    display: 'none',
+  },
+  badge: {
+    fontSize: '12px',
+    padding: '3px 8px',
+    borderRadius: '12px',
+    backgroundColor: '#e6f7ff',
+    color: '#0073cf',
+    marginLeft: 'auto',
+  },
+  badgeSuccess: {
+    backgroundColor: '#e6fff2',
+    color: '#00b371',
+  },
+  logoContainer: {
+    padding: '20px',
+    borderBottom: '1px solid #eaeaea',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    fontSize: '24px',
     fontWeight: 'bold',
+    color: '#2196F3',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  iconWrapper: {
+    display: 'inline-flex',
+    marginRight: '8px',
+    verticalAlign: 'middle',
+  },
+  tabButton: {
+    flex: 1,
+    padding: '15px',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionButton: {
+    padding: '8px 16px',
+    backgroundColor: '#2196F3',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
   }
 };
 
@@ -282,6 +445,18 @@ const KmlMap = ({ kmlContent, isActive, zip, baseDir }) => {
   }, [zip]);
 
   const updateOverlays = useCallback(async () => {
+    // Clear existing overlays regardless of isActive state
+    setOverlays(prev => {
+      prev.forEach(overlay => {
+        if (overlay.leafletOverlay) {
+          map.removeLayer(overlay.leafletOverlay);
+        }
+        URL.revokeObjectURL(overlay.imageUrl);
+      });
+      return [];
+    });
+
+    // Only add new overlays if the layer is active
     if (!isActive || !kmlContent || (!zip && !kmlContent.includes('<kml'))) return;
 
     try {
@@ -311,19 +486,10 @@ const KmlMap = ({ kmlContent, isActive, zip, baseDir }) => {
       const newOverlays = (await Promise.all(allOverlayPromises))
         .filter(overlay => overlay !== null);
 
-      setOverlays(prev => {
-        prev.forEach(overlay => {
-          if (overlay.leafletOverlay) {
-            map.removeLayer(overlay.leafletOverlay);
-          }
-          URL.revokeObjectURL(overlay.imageUrl);
-        });
-
-        return newOverlays.map(overlay => {
-          const leafletOverlay = L.imageOverlay(overlay.imageUrl, overlay.bounds).addTo(map);
-          return { ...overlay, leafletOverlay };
-        });
-      });
+      setOverlays(newOverlays.map(overlay => {
+        const leafletOverlay = L.imageOverlay(overlay.imageUrl, overlay.bounds).addTo(map);
+        return { ...overlay, leafletOverlay };
+      }));
 
       if (newOverlays.length > 0) {
         const allBounds = L.latLngBounds(newOverlays.map(o => o.bounds));
@@ -335,6 +501,7 @@ const KmlMap = ({ kmlContent, isActive, zip, baseDir }) => {
     }
   }, [map, kmlContent, isActive, zip, baseDir, processGroundOverlay]);
 
+  // Effect to update overlays when isActive changes or when component mounts/unmounts
   useEffect(() => {
     updateOverlays();
     
@@ -349,19 +516,99 @@ const KmlMap = ({ kmlContent, isActive, zip, baseDir }) => {
         return [];
       });
     };
-  }, [updateOverlays]);
+  }, [updateOverlays, isActive]);
 
   return null;
 };
 
+// LayerItem Component
+const LayerItem = ({ name, isActive, fileUploaded, onToggle, onFileUpload }) => {
+  const [hover, setHover] = useState(false);
+  const fileInputRef = React.createRef();
+
+  const handleFileInputClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const getLayerIcon = () => {
+    if (name === 'Orthophotos') return <MapIcon />;
+    return <LayersIcon />;
+  };
+
+  return (
+    <div 
+      style={{
+        ...styles.layerItem,
+        ...(isActive ? styles.layerItemActive : {})
+      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <div style={styles.layerHeader}>
+        <h3 style={styles.layerTitle}>
+          <span style={styles.iconWrapper}>{getLayerIcon()}</span>
+          {name}
+          
+          {fileUploaded && (
+            <span style={{
+              ...styles.badge,
+              ...(isActive ? styles.badgeSuccess : {})
+            }}>
+              {isActive ? 'Active' : 'Loaded'}
+            </span>
+          )}
+        </h3>
+        
+        <label style={styles.toggleSwitch}>
+          <input
+            type="checkbox"
+            checked={isActive}
+            onChange={onToggle}
+            style={styles.toggleInput}
+          />
+          <span style={{
+            ...styles.toggleSlider,
+            ...(isActive ? styles.toggleSliderActive : {})
+          }}>
+            <span style={{
+              ...styles.toggleSliderBefore,
+              ...(isActive ? styles.toggleSliderBeforeActive : {})
+            }}></span>
+          </span>
+        </label>
+      </div>
+      
+      {isActive && !fileUploaded && (
+        <div>
+          <div 
+            style={{
+              ...styles.uploadButton,
+              ...(hover ? styles.uploadButtonHover : {})
+            }}
+            onClick={handleFileInputClick}
+          >
+            <span style={styles.iconWrapper}><UploadIcon /></span> Upload KML/KMZ File
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            onChange={onFileUpload}
+            accept=".kmz,.kml"
+            style={styles.fileInput}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 // Main Map Component
 const Map = () => {
   const [layers, setLayers] = useState({
-    Orthophotos: { kmlContent: null, isActive: false, zip: null, baseDir: '' },
-    DTM: { kmlContent: null, isActive: false, zip: null, baseDir: '' },
-    DSM: { kmlContent: null, isActive: false, zip: null, baseDir: '' },
+    Orthophotos: { kmlContent: null, isActive: false, zip: null, baseDir: '', fileUploaded: false },
+    DTM: { kmlContent: null, isActive: false, zip: null, baseDir: '', fileUploaded: false },
+    DSM: { kmlContent: null, isActive: false, zip: null, baseDir: '', fileUploaded: false },
   });
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [activeTab, setActiveTab] = useState('upload'); // 'upload' or 'active'
 
   const handleFileUpload = async (e, layerName) => {
     const file = e.target.files[0];
@@ -389,6 +636,7 @@ const Map = () => {
               isActive: true,
               zip: zip,
               baseDir: kmlFiles[0].basePath,
+              fileUploaded: true
             },
           }));
         } else {
@@ -401,6 +649,7 @@ const Map = () => {
               isActive: true,
               zip: null,
               baseDir: '',
+              fileUploaded: true
             },
           }));
         }
@@ -423,70 +672,150 @@ const Map = () => {
     }));
   };
 
+  // Count active layers
+  const activeLayersCount = Object.values(layers).filter(layer => layer.fileUploaded && layer.isActive).length;
+  const loadedLayersCount = Object.values(layers).filter(layer => layer.fileUploaded).length;
 
   return (
     <div style={styles.container}>
-      <div style={{
-        ...styles.sidebar,
-        ...(sidebarVisible ? {} : styles.sidebarHidden)
-      }}>
-        <div style={styles.fileUpload}>
-          <h2>File Uploads</h2>
-          {Object.keys(layers).map((layerName) => (
-            <div key={layerName} style={styles.layerToggle}>
-              <label>
-                {layerName}:
-                <input
-                  type="file"
-                  onChange={(e) => handleFileUpload(e, layerName)}
-                  accept=".kmz"
-                />
-              </label>
-            </div>
-          ))}
+      <div style={styles.sidebar}>
+        <div style={styles.logoContainer}>
+          <div style={styles.logo}>
+            <span style={styles.iconWrapper}><MapIcon /></span> KMZ Viewer
+          </div>
         </div>
 
-        <div>
-          <h2>Toggle Layers</h2>
-          {Object.keys(layers).map((layerName) => (
-            <div key={layerName} style={styles.layerToggle}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={layers[layerName].isActive}
-                  onChange={() => toggleLayer(layerName)}
-                />
-                {layerName}
-              </label>
-            </div>
-          ))}
+        <div style={{
+          display: 'flex',
+          borderBottom: '1px solid #eaeaea',
+        }}>
+          <button
+            onClick={() => setActiveTab('upload')}
+            style={{
+              ...styles.tabButton,
+              backgroundColor: activeTab === 'upload' ? '#f8f9fa' : 'transparent',
+              borderBottom: activeTab === 'upload' ? '2px solid #2196F3' : 'none',
+              fontWeight: activeTab === 'upload' ? '600' : '400',
+              color: activeTab === 'upload' ? '#2196F3' : '#666',
+            }}
+          >
+            <span style={styles.iconWrapper}><UploadIcon /></span> Upload Layers
+          </button>
+          <button
+            onClick={() => setActiveTab('active')}
+            style={{
+              ...styles.tabButton,
+              backgroundColor: activeTab === 'active' ? '#f8f9fa' : 'transparent',
+              borderBottom: activeTab === 'active' ? '2px solid #2196F3' : 'none',
+              fontWeight: activeTab === 'active' ? '600' : '400',
+              color: activeTab === 'active' ? '#2196F3' : '#666',
+            }}
+          >
+            <span style={styles.iconWrapper}><LayersIcon /></span> Active Layers
+            {loadedLayersCount > 0 && (
+              <span style={{
+                ...styles.badge,
+                marginLeft: '8px',
+              }}>
+                {activeLayersCount}/{loadedLayersCount}
+              </span>
+            )}
+          </button>
         </div>
+
+        {activeTab === 'upload' && (
+          <div style={styles.sectionContent}>
+            {Object.keys(layers).map((layerName) => (
+              <LayerItem
+                key={layerName}
+                name={layerName}
+                isActive={layers[layerName].isActive}
+                fileUploaded={layers[layerName].fileUploaded}
+                onToggle={() => toggleLayer(layerName)}
+                onFileUpload={(e) => handleFileUpload(e, layerName)}
+              />
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'active' && (
+          <div style={styles.sectionContent}>
+            {loadedLayersCount === 0 ? (
+              <div style={{ textAlign: 'center', padding: '30px 0', color: '#666' }}>
+                <div style={{ marginBottom: '15px', opacity: 0.5 }}>
+                  <UploadIcon />
+                </div>
+                <p>No layers uploaded yet.</p>
+                <button
+                  onClick={() => setActiveTab('upload')}
+                  style={styles.actionButton}
+                >
+                  Upload Layers
+                </button>
+              </div>
+            ) : (
+              Object.keys(layers).map((layerName) => (
+                layers[layerName].fileUploaded && (
+                  <LayerItem
+                    key={`active-${layerName}`}
+                    name={layerName}
+                    isActive={layers[layerName].isActive}
+                    fileUploaded={layers[layerName].fileUploaded}
+                    onToggle={() => toggleLayer(layerName)}
+                    onFileUpload={(e) => handleFileUpload(e, layerName)}
+                  />
+                )
+              ))
+            )}
+          </div>)}
       </div>
 
-      <MapContainer
-        center={[20.5937, 77.9629]}
-        zoom={5}
-        minZoom={3}
-        maxZoom={19}
-        style={styles.map}
-      >
-        <TileLayer
-          url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-          attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
-        />
-        {Object.entries(layers).map(([layerName, { kmlContent, isActive, zip, baseDir }]) => (
-          <KmlMap
-            key={layerName}
-            kmlContent={kmlContent}
-            isActive={isActive}
-            zip={zip}
-            baseDir={baseDir}
+      <div style={styles.mapContainer}>
+        <MapContainer
+          center={[20.5937, 77.9629]}
+          zoom={5}
+          minZoom={3}
+          maxZoom={18}
+          style={styles.map}
+        >
+          {/* Satellite imagery layer */}
+          <TileLayer
+            url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            attribution='© <a href="https://www.esri.com/">Esri</a> | Satellite Imagery'
+            maxZoom={18}
           />
-        ))}
-      </MapContainer>
-
+          {/* Labels layer for hybrid effect */}
+          <TileLayer
+            url="https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+            attribution='© <a href="https://www.esri.com/">Esri</a> | Labels'
+            maxZoom={18}
+            opacity={0.8} // Slightly transparent to let satellite imagery show through
+          />
+          {Object.entries(layers).map(([layerName, { kmlContent, isActive, zip, baseDir }]) => (
+            <KmlMap
+              key={layerName}
+              kmlContent={kmlContent}
+              isActive={isActive}
+              zip={zip}
+              baseDir={baseDir}
+            />
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 };
 
-export default Map;
+// Main App Component
+const KMZViewer = () => {
+  const [helpOpen, setHelpOpen] = useState(false);
+  
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
+      <Map />
+     
+    </div>
+  );
+};
+
+export default KMZViewer;

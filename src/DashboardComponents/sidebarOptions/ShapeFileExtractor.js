@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { MapContainer, TileLayer, LayersControl, Polyline } from 'react-leaflet'; // Remove 'Overlay' import
+import { MapContainer, TileLayer, LayersControl, Polyline } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
@@ -9,7 +9,7 @@ import './MyMap.css'
 
 const MyMap = () => {
   const center = [20.5937, 78.9629];  // Central point of Maharashtra
-  const zoom = 7;
+  const zoom = 5;
 
   const [geodata, setGeodata] = useState(null);
   const [map, setMap] = useState(null);
@@ -154,8 +154,6 @@ const MyMap = () => {
     [25.5941, 85.1376],  // Patna, Bihar
     [26.9124, 75.7873],  // Jaipur, Rajasthan
   ];
-
-
 
   // Handle layer checkbox changes
   const handleLayerChange = (event) => {
@@ -425,27 +423,42 @@ const MyMap = () => {
 
   return (
     <>
-  {map ? <DisplayPosition map={map} position={position} setPosition={setPosition} /> : null}
+      {map ? <DisplayPosition map={map} position={position} setPosition={setPosition} /> : null}
 
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#f9f9f9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', marginTop: '13vh' }} className="upload-shapefile">
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-      <label style={{ marginRight: '20px', fontSize: '16px' }}>Upload ShapeFile(.zip):</label>
-      <input type="file" accept=".zip" onChange={handleFile} className="inputfile" style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff' }} />
-      <button
-        className="map-layers-button"
-        onClick={() => setShowMapLayers(!showMapLayers)}
-        style={{ marginLeft: '20px', padding: '10px 20px', border: 'none', borderRadius: '4px', backgroundColor: '#014b4d', color: '#fff', fontSize: '16px', cursor: 'pointer', transition: 'background-color 0.3s ease' }}
-        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#013a3d')}
-        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#014b4d')}
-      >
-        Map Layers
-      </button>
-    </div>
-  </div>
-
-
-
-
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#f9f9f9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', marginTop: '13vh' }} className="upload-shapefile">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+          <label style={{ marginRight: '20px', fontSize: '16px' }}>Upload ShapeFile(.zip):</label>
+          <input 
+            type="file" 
+            accept=".zip" 
+            onChange={handleFile} 
+            className="inputfile" 
+            style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff' }} 
+          />
+          <button
+            className="map-layers-button"
+            onClick={() => setShowMapLayers(!showMapLayers)}
+            style={{ 
+              marginLeft: '20px', 
+              padding: '10px 20px', 
+              border: 'none', 
+              borderRadius: '4px', 
+              backgroundColor: '#2196f9', 
+              color: '#fff', 
+              fontSize: '16px', 
+              cursor: 'pointer', 
+              transition: 'background-color 0.3s ease', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '8px'
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#2196f9')}
+            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#2196f3')}
+          >
+            Map Layers <span style={{ fontSize: '16px' }}>▼</span>
+          </button>
+        </div>
+      </div>
 
       {showMapLayers && <MapLayersDropdown />}
 
@@ -457,7 +470,21 @@ const MyMap = () => {
         whenCreated={setMap}
         placeholder={<MapPlaceholder />}
       >
-        <LayersControl position='topright'>
+        {/* Changed position from 'topright' to 'topleft' */}
+        <LayersControl position='topleft'>
+          {/* Add the Hybrid Map as a base layer option, now set as default (checked) */}
+          <LayersControl.BaseLayer checked name="Hybrid Map (Satellite with Labels)">
+            <TileLayer 
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" 
+              attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+            />
+            <TileLayer 
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}" 
+              attribution="Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom"
+            />
+          </LayersControl.BaseLayer>
+
+          {/* Keep existing base layers, but changed OpenStreetMap to not be default (checked=false) */}
           {
             Object.keys(TileProviders).map((providerName, index) => {
               const tileProvider = TileProviders[providerName];
@@ -491,8 +518,9 @@ const MyMap = () => {
                       varUrl = varUrl.replace("{variant}", varName);
                     }
 
+                    // Changed checked to false for OpenStreetMap since hybrid is now default
                     return (
-                      <LayersControl.BaseLayer checked={providerName === 'OpenStreetMap' && varName === 'Mapnik'} key={varIdx} name={providerName + " " + varName}>
+                      <LayersControl.BaseLayer checked={false} key={varIdx} name={providerName + " " + varName}>
                         <TileLayer url={varUrl} attribution={options.attribution} />
                       </LayersControl.BaseLayer>
                     );
@@ -588,7 +616,6 @@ const MyMap = () => {
           {selectedLayers.oslWaterBottoms && (
             <Polyline positions={oslWaterBottomsCoordinates} color="indigo" weight={2} />
           )}
-
         </LayersControl>
       </MapContainer>
     </>
