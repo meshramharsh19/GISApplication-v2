@@ -50,6 +50,7 @@ const styles = {
   container: {
     display: 'flex',
     height: '100vh',
+    top: '90px',
     position: 'relative',
     fontFamily: 'Inter, system-ui, sans-serif',
   },
@@ -810,7 +811,7 @@ const KMZViewer = () => {
   const [helpOpen, setHelpOpen] = useState(false);
   
   return (
-    <div style={{ position: 'relative', width: '100%', height: '92vh' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <Map />
      
     </div>

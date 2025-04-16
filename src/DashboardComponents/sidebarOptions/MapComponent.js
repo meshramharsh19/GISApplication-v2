@@ -90,8 +90,8 @@ const MapComponent = ({ kmlData }) => {
           borderRadius: "5px",
           cursor: "pointer",
           fontSize: "16px",
-          position: "absolute",
-          top: "141px",
+          position: "fixed",
+          top: "185px",
           left: "50vw"
         }}
       >

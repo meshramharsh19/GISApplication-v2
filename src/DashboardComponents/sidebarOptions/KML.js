@@ -58,7 +58,7 @@ const KML = () => {
 
   return (
     <ErrorBoundary>
-      <div style={{ padding: '20px' }}>
+      <div style={{ marginTop: '13vh', padding: '20px' }}>
         <h1>KML File Uploader and Map Viewer</h1>
 
         {/* Styled file upload area */}
@@ -111,7 +111,7 @@ const KML = () => {
           </div>
         )}
 
-        <div style={{height: '72vh' }}>
+        <div style={{ marginTop: '20px', height: '500px' }}>
           <MapComponent
             kmlData={kmlData}
             imageUrl={imageUrl}
