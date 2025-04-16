@@ -13,7 +13,7 @@ const Welcome = () => {
 
   return (
     <div className="welcome-container">
-      <div class="welcome-text">Wellcome to the Dashboard</div>
+      <div class="welcome-text">Welcome to the Dashboard</div>
     </div>
 
   );

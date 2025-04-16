@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, LayersControl } from 'react-leaflet';
 import L from 'leaflet'; // Import L from Leaflet
 import './Location.css';
 
@@ -7,7 +7,7 @@ const MapPage = () => {
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   const [position, setPosition] = useState([21.1498, 79.0806]); // Default location (Nagpur, India)
-  const [zoom, setZoom] = useState(16); // Default zoom level
+  const [zoom, setZoom] = useState(5); // Default zoom level
 
   // Default marker icon
   const defaultIcon = new L.Icon({
@@ -57,10 +57,37 @@ const MapPage = () => {
       </div>
       <div className="map-wrapper">
         <MapContainer center={position} zoom={zoom} style={{ height: '100%', width: '100%' }}>
-          <TileLayer
-            url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-            attribution='&copy; <a href="https://www.esri.com/">Esri</a> &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
-          />
+          <LayersControl position="topright">
+            {/* Satellite imagery without labels */}
+            <LayersControl.BaseLayer name="Satellite">
+              <TileLayer
+                url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                attribution='&copy; <a href="https://www.esri.com/">Esri</a> &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+              />
+            </LayersControl.BaseLayer>
+            
+            {/* Default: Satellite imagery with labels */}
+            <LayersControl.BaseLayer checked name="Satellite with Labels">
+              <TileLayer
+                url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
+              />
+              <TileLayer
+                url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+                attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
+                zIndex={10}
+              />
+            </LayersControl.BaseLayer>
+            
+            {/* Standard map option */}
+            <LayersControl.BaseLayer name="Street Map">
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+            </LayersControl.BaseLayer>
+          </LayersControl>
+          
           <Marker position={position} icon={defaultIcon}>
             <Popup>Location: {position[0]}, {position[1]}</Popup>
           </Marker>

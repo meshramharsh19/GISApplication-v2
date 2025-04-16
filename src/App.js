@@ -9,7 +9,10 @@ import SignupPage from './Components/SignupPage';
 import ForgotPasswordPage from './Components/ForgotPasswordPage';
 import TopLoadingBar from 'react-top-loading-bar';
 import DashboardApp from './DatabaseApp';
-import UserProfile from './DashboardComponents/UserProfile';
+// import UserProfile from './DashboardComponents/UserProfile';
+import UserProfile  from './Components/Userprofile';
+
+
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -55,7 +58,7 @@ function App() {
         <Route path="/signup" element={<SignupPage handleButtonClick={handleButtonClick} />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage handleButtonClick={handleButtonClick} />} />
         <Route path="/DashboardApp" element={isAuthenticated ? <DashboardApp /> : <Navigate to="/login" />} />
-        <Route path="/UserProfile" element={isAuthenticated ? <UserProfile /> : <Navigate to="/login" />} />
+        <Route path="/UserProfile" element={ isAuthenticated ? <UserProfile /> : <Navigate to="/login" handleButtonClick={handleButtonClick} />} />
       </Routes>
       <CardContainer />
       <Footer />

@@ -23,8 +23,9 @@ import Location from "./sidebarOptions/Location";
 import ShapeFileExtractor from "./sidebarOptions/ShapeFileExtractor";
 import KML from "./sidebarOptions/KML";
 import KMZ from "./sidebarOptions/KMZ";
+import TIF from "./sidebarOptions/Tif";
 import Welcome from "./Welcome"; // Import the Welcome component
-import "./Dashboard.css"; 
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -46,6 +47,8 @@ const Dashboard = () => {
         return <KML />;
       case "KMZ":
         return <KMZ />;
+      case "TIF":
+        return <TIF />;
       default:
         return <Welcome />; // Render the Welcome component
     }
@@ -87,6 +90,7 @@ const Dashboard = () => {
               { text: "Shape File Extractor", icon: <FileDownloadIcon /> },
               { text: "KML", icon: <LayersIcon /> },
               { text: "KMZ", icon: <PublicIcon /> },
+              { text: "TIF", icon: <PublicIcon /> },
             ].map((item) => (
               <ListItem
                 button

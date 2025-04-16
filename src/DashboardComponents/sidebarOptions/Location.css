@@ -15,7 +15,7 @@ body {
   
   .input-container {
     position: absolute;
-    top: 10px; /* Adjust to your desired distance from the top */
+    top:35px; /* Adjust this value to position the input area vertically */
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -36,7 +36,7 @@ body {
   
   .input-container button {
     padding: 8px 16px;
-    background-color: #14b2c7;
+    background-color: #2292ed;
     color: white;
     border: none;
     border-radius: 5px;
@@ -45,7 +45,7 @@ body {
   }
   
   .input-container button:hover {
-    background-color: #118898;
+    background-color: #2196f9;
   }
   
   /* Map styling */

@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# GIS Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a full-stack web-based Geographic Information System (GIS) platform developed using the MERN stack (MongoDB, Express.js, React, Node.js). It offers interactive 2D and 3D data visualization capabilities, user authentication, and robust data management.
 
-## Available Scripts
+## Technologies Used
 
-In the project directory, you can run:
+*   **MERN Stack:**
+    *   **MongoDB:** Database for storing spatial and user data.
+    *   **Express.js:** Backend framework for handling API requests and server logic.
+    *   **React:** Frontend library for building the user interface.
+    *   **Node.js:** Runtime environment for the server.
+*   **UI Design:**  Focus on user-friendly and intuitive interface for GIS functionalities.
+*   **Mapping Libraries:**
+    *   **Leaflet:**  For 2D map visualization and interaction.
+    *   **Cesium ion:** Platform for 3D globe visualization and access to geospatial data.
+    *   **Three.js:** JavaScript 3D library used for advanced 3D model rendering and integration with Cesium.
+*   **GIS Functionality:** Core features for working with geospatial data.
+*   **2D/3D Visualization:**  Support for displaying and interacting with 2D (KML/KMZ) and 3D data (3D models).
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*   **Interactive 2D/3D Data Visualization:**  Display KML/KMZ files and 3D models on interactive maps and globes.
+*   **User Authentication:** Secure user registration, login, and authorization.
+*   **Data Management:**  Robust system for uploading, storing, and managing geospatial data.
+*   **Collaborative Development:**  Designed and built with collaboration in mind for scalability and maintainability.
+*   [Add other features as needed, e.g., search functionality, data analysis tools, custom layer creation, etc.]
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/Yalarp/GIS_dashboard.git](https://github.com/Yalarp/GIS_dashboard.git)
+    ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2.  **Navigate to the project directory:**
+    ```bash
+   
+    cd GIS_dashboard
+    npm install
+    npm run start
+    ```
 
-### `npm run build`
+3.  **Install server dependencies:**
+    ```bash
+    cd GIS_dashboard
+    cd backend
+    npm install
+    nodemon server.js
+   
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5.  **Configure Environment Variables:** Create `.env` files in both the `server` and `client` directories and add the necessary environment variables (e.g., database connection string, API keys).  See `.env.example` files if provided for the structure.
 
-### `npm run eject`
+6.  **Run the application:**
+    ```bash
+    # In the server directory
+    cd server
+    nodemon server.js  # Runs the server using nodemon
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    # In a separate terminal, in the client directory
+    cd client
+    npm run start  # or yarn start - Runs the React app
+    ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Contributing
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Contributions are welcome!  This project was developed by Pralay Tembhurne and Harsh Meshram.  Please feel free to submit pull requests or bug reports.  
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Contact
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Pralay Tembhurne
+2706pralay@gmail.com
