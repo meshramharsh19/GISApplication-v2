@@ -2,12 +2,12 @@
 .map-ui-container {
   display: flex;
   height: 100vh;
-  margin-top: 10px;
+  margin-top: -10px; /* Removed the 10px top margin */
 }
 
 .sidebar {
   width: 350px;
-  margin-top: 9vh;
+  margin-top: 0; /* Removed the 9vh top margin */
   padding: 20px;
   background-color: #ffffff;
   border-right: 1px solid #ddd;

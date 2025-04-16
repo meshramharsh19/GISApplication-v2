@@ -161,7 +161,7 @@ const MapUI = () => {
       </div>
 
       <div className="map-container">
-        <MapContainer center={position} zoom={zoom} style={{ height: '100%', width: '100%', marginTop: '9vh' }}>
+        <MapContainer center={position} zoom={zoom} style={{ height: '90vh', width: '100%' }}>
           {/* Satellite imagery layer */}
           <TileLayer
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
