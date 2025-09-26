@@ -1,3 +1,5 @@
+// src/Components/LoginPage.js
+
 import React, { useState } from 'react';
 import './LoginPage.css';
 import { useNavigate, Link } from 'react-router-dom';
@@ -30,6 +32,7 @@ const LoginPage = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+          credentials: "include",
       });
 
       const data = await response.json();

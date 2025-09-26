@@ -1,3 +1,5 @@
+// backend/server.js
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -43,6 +45,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/users', userRoutes);
 app.use('/api/files', fileRoutes);
 
+
+
+
 // MongoDB Connection 1 (Primary Database)
 mongoose.connect(mongoPrimaryURI, {
   useNewUrlParser: true,
@@ -65,6 +70,10 @@ kmlDbConnection
 
 // Export new connection for KML-related models
 module.exports = { kmlDbConnection };
+
+
+
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
