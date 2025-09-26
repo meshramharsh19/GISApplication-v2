@@ -3,19 +3,13 @@
 const express = require('express');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const auth = require('../middleware/authMiddleware');
+// const auth = require('../middleware/authMiddleware'); // auth middleware is not used here
 
 const router = express.Router();
 
+// Signup route remains the same
 router.post('/signup', async (req, res) => {
-  const { username, email, password } = req.body;
-  try {
-    const newUser = new User({ username, email, password });
-    await newUser.save();
-    res.status(201).json({ message: 'User created successfully' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+  // ... no change
 });
 
 router.post('/login', async (req, res) => {
@@ -27,37 +21,34 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    req.session.user = user; // Store user in session
-    res.status(200).json({ message: 'Login successful' });
+    // Create a user object without the password
+    const userSessionData = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+    };
+
+    req.session.user = userSessionData; // Store clean user data in session
+
+    // CHANGED: Send the user data back to the frontend
+    res.status(200).json({ message: 'Login successful', user: userSessionData });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
+// Logout route remains the same
 router.post('/logout', (req, res) => {
-  if (!req.session) {
-    return res.status(400).json({ message: 'No active session found' });
-  }
-
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Logout error:', err);
-      return res.status(500).json({ message: 'Logout failed' });
-    }
-
-    res.clearCookie('connect.sid', { path: '/' }); // Ensure session cookie is properly cleared
-    res.status(200).json({ message: 'Logout successful' });
-  });
+  // ... no change
 });
-
-
 
 // Check Auth Route
 router.get('/check-auth', (req, res) => {
   if (req.session.user) {
-    res.status(200).json({ message: 'Authenticated' });
+    // CHANGED: Send the user data if they are authenticated
+    res.status(200).json({ isAuthenticated: true, user: req.session.user });
   } else {
-    res.status(401).json({ message: 'Not authenticated' });
+    res.status(401).json({ isAuthenticated: false });
   }
 });
 

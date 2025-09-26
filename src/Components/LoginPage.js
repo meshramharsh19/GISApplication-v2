@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; 
+
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+   const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,17 +31,19 @@ const LoginPage = () => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
+      // CHANGED: Removed hardcoded URL
+      const response = await fetch('/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-          credentials: "include",
+        credentials: "include", // Important for sending cookies
       });
 
       const data = await response.json();
       if (response.ok) {
         console.log('Login successful:', data);
-        localStorage.setItem('userRoutes', data.token);
+        // CHANGED: Call context login function instead of localStorage
+        login(data.user); 
         navigate('/DashboardApp');
       } else {
         setErrorMessage(data.message || 'Invalid email or password.');

@@ -18,37 +18,53 @@ const mongoSessionURI = process.env.MONGODB_USER || 'mongodb://127.0.0.1:27017/r
 const mongoPrimaryURI = process.env.MONGODB_USER || 'mongodb://127.0.0.1:27017/react-auth';
 const mongoKmlURI = process.env.MONGODB_KML || 'mongodb://127.0.0.1:27017/kmlFiles';
 
-// Debugging logs
-console.log("Primary DB URI:", mongoPrimaryURI);
-console.log("KML DB URI:", mongoKmlURI);
-
 // Middleware
-app.use(cors());
+// For development, configure CORS to allow credentials from your React dev server
+app.use(cors({
+  origin: 'http://localhost:3000', // URL of your React app
+  credentials: true,
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Session Middleware
 app.use(session({
-  secret: "fhlfkajfhsuigfhwughfjsehiuwh", // keep secret safe in .env
+  secret: "fhlfkajfhsuigfhwughfjsehiuwh",
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false, // Changed to false for better practice
   store: MongoStore.create({
     mongoUrl: mongoSessionURI,
     collectionName: 'sessions',
   }),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
 }));
 
 // Static file serving for uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
+// =======================================================
+//  API Routes (SHOULD BE BEFORE SERVING REACT APP)
+// =======================================================
 app.use('/api/users', userRoutes);
 app.use('/api/files', fileRoutes);
 
+// =======================================================
+//  SERVE REACT APP (FOR PRODUCTION)
+// =======================================================
+// This code will only run in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static(path.join(__dirname, '../build')));
 
+  // Catch-all route to serve index.html for any request that doesn't match an API route
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  });
+}
 
-
-// MongoDB Connection 1 (Primary Database)
+// MongoDB Connections (No change here)
 mongoose.connect(mongoPrimaryURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -58,22 +74,15 @@ mongoose.connect(mongoPrimaryURI, {
     process.exit(1);
   });
 
-// MongoDB Connection 2 (KML Files Database)
 const kmlDbConnection = mongoose.createConnection(mongoKmlURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 kmlDbConnection
   .once('open', () => console.log('✅ New MongoDB Connected (KML Files Database)'))
   .on('error', (err) => console.error('❌ Failed to connect to New MongoDB:', err.message));
 
-// Export new connection for KML-related models
 module.exports = { kmlDbConnection };
-
-
-
-
 
 // Start the server
 const PORT = process.env.PORT || 5000;

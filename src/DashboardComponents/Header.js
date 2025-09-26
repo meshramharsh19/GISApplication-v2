@@ -52,11 +52,8 @@ const Header = ({ toggleDarkMode, darkMode }) => {
   };
   
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
     navigate("/login");
-    handleClose();
-    window.location.reload();
+    
   };
   
   return (
