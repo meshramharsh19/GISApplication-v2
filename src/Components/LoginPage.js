@@ -49,7 +49,7 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <div className="content-section">
+      <div className="content-section" style={{ marginBottom: '10px' }}>
         <h1 className="main-title">The best Visualization</h1>
         <h2 className="sub-title">for your spatial data</h2>
         <p className="description">
