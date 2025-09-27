@@ -32,11 +32,13 @@ import {
   Brightness7
 } from "@mui/icons-material";
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Header = ({ toggleDarkMode, darkMode }) => {
   const isMobile = useMediaQuery('(max-width:900px)');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { logout } = useAuth();
   const navigate = useNavigate();
   
   const toggleDrawer = () => {
@@ -52,7 +54,8 @@ const Header = ({ toggleDarkMode, darkMode }) => {
   };
   
   const handleLogout = () => {
-    navigate("/login");
+    logout();
+    navigate('/login');
     
   };
   
@@ -114,7 +117,7 @@ const Header = ({ toggleDarkMode, darkMode }) => {
       color: darkMode ? "#ffffff" : "#333333"
     }}
   >
-    COjag
+    Cojag
     <Typography 
       component="span" 
       sx={{ 

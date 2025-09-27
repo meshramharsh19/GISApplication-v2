@@ -61,7 +61,8 @@ const LoginPage = () => {
         <h1 className="main-title">The best Visualization</h1>
         <h2 className="sub-title">for your spatial data</h2>
         <p className="description">
-        This project is a full-stack web-based Geographic Information System (GIS) platform developed using the MERN stack (MongoDB, Express.js, React, Node.js). It offers interactive 2D and 3D data visualization capabilities, user authentication, and robust data management.
+          Spatial data visualization, analysis, and management platform designed to empower users with intuitive tools and features.
+          Cojag GIS offers a comprehensive suite of functionalities, including interactive mapping, data layering, geospatial analysis, and real-time collaboration.
         </p>
       </div>
       

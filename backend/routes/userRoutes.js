@@ -9,7 +9,14 @@ const router = express.Router();
 
 // Signup route remains the same
 router.post('/signup', async (req, res) => {
-  // ... no change
+  const { username, email, password } = req.body;
+  try {
+    const newUser = new User({ username, email, password });
+    await newUser.save();
+    res.status(201).json({ message: 'User created successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 router.post('/login', async (req, res) => {
@@ -39,7 +46,25 @@ router.post('/login', async (req, res) => {
 
 // Logout route remains the same
 router.post('/logout', (req, res) => {
-  // ... no change
+  // Check if a session exists
+  if (req.session) {
+    // Use the destroy method to remove the session from the server's store
+    req.session.destroy(err => {
+      if (err) {
+        // Handle any errors that occur during session destruction
+        res.status(500).json({ message: 'Could not log out, please try again.' });
+      } else {
+        // (Best Practice) Explicitly clear the cookie from the browser
+        res.clearCookie('connect.sid'); // 'connect.sid' is the default session cookie name
+        
+        // Send a success response
+        res.status(200).json({ message: 'Logout successful' });
+      }
+    });
+  } else {
+    // If no session exists, the user is already effectively logged out
+    res.end();
+  }
 });
 
 // Check Auth Route
